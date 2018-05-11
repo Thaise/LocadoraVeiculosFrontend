@@ -1,0 +1,27 @@
+.pagination{
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.pagination button{
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+.info-pag p{
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.controle-max-pag{   
+    margin-right: 5px;
+    margin-top: 3px;
+}
+
+.tabela{
+    margin-top: 30px
+}
+
+.btn-danger{
+    color:white !important
+}

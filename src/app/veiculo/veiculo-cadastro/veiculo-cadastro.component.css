@@ -1,0 +1,11 @@
+form.submitted input.ng-invalid , form.submitted select.ng-invalid{
+    border:1px solid #f00;
+}
+
+input.ng-valid, select.ng-valid{
+    border: 1px solid #ccc !important;
+}
+
+input.ng-invalid.ng-touched, select.ng-invalid.ng-touched, input.erro-validacao{
+    border: 1px solid red !important;
+}

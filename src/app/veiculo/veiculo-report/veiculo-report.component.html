@@ -1,0 +1,89 @@
+<h4>Veiculos</h4>
+
+<section class="filtros">
+  <form>
+    <div class="form-row">
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Placa" [(ngModel)]="filtro.placa" name="placa" title="Placa" pattern="\w{3}-\d{4}"
+          mask="'AAA-0000'" />
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Modelo" [(ngModel)]="filtro.modelo" name="modelo" title="Modelo" />
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="Marca" [(ngModel)]="filtro.marca" name="marca" title="Marca" />
+      </div>
+      <div class="col">
+        <button type="submit" class="btn" (click)="filtrar()">Filtrar</button>
+        <button type="submit" class="btn btn-default" (click)="limpar()">Limpar</button>
+      </div>
+    </div>
+  </form>
+</section>
+<section class="tabela">
+  <div class="alert alert-{{tipoMsgRetorno}}" [hidden]="mensagemRetorno == null">{{mensagemRetorno}}</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Marca</th>
+        <th scope="col">Placa</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Status</th>
+        <th scope="col">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of registros">
+        <td>{{item.marca}}</td>
+        <td>{{item.placa}}</td>
+        <td>{{item.modelo}}</td>
+        <td>{{item.status}}</td>
+        <td>
+          <a class="btn btn-info" routerLink="/veiculo/visualizacao/{{item.idVeiculo}}">Ver</a>
+          <a class="btn btn-primary" routerLink="/veiculo/cadastro/{{item.idVeiculo}}">Atualizar</a>
+          <a class="btn btn-danger" (click)="remove(item)">Remover</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<nav class="paginacao">
+  <ul class="pagination">
+    <li class="controle-max-pag">
+      <select name="qtdPorPagina" [disabled]="qtdPorPagina == 10 && qtdPorPagina >= totalRegistros" class="form-control form-control-sm"
+        (change)="alteraMaxRegistros($event.target.value)">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+      </select>
+    </li>
+    <li>
+      <button class="btn btn-secondary" [disabled]="pagina==1" (click)="executaPaginacao(1, $event)">
+        < </button>
+    </li>
+    <li>
+      <button class="btn btn-secondary" [disabled]="pagina==1" (click)="executaPaginacao(pagina-1, $event)">
+        << </button>
+    </li>
+    <li class="info-pag">
+      <p>
+        <strong>{{pagina}}</strong> de {{qtdPaginas}}</p>
+    </li>
+    <li>
+      <button class="btn btn-secondary" [disabled]="qtdPaginas==1 || pagina==qtdPaginas" (click)="executaPaginacao(pagina+1, $event)">
+        >>
+      </button>
+    </li>
+    <li>
+      <button class="btn btn-secondary" [disabled]="qtdPaginas==1 || pagina==qtdPaginas" (click)="executaPaginacao(qtdPaginas, $event)">
+        >
+      </button>
+    </li>
+  </ul>
+  <p>Total de registros:
+    <strong>{{ totalRegistros }}</strong>
+</nav>
+<section id="opcoes">
+  <a class="btn btn-success" routerLink="/veiculo/cadastro">Incluir Veiculo</a>
+</section>

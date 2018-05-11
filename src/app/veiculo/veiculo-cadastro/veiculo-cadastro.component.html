@@ -1,0 +1,83 @@
+<div class="row">
+
+  <div class="span8">
+
+    <h4>Cadastro de Veículos</h4>
+
+    <form #veiculoForm (ngSubmit)="enviaDados(veiculoForm)" [class.submitted]="veiculoForm.submitted && veiculoForm.invalid">
+      <fieldset [disabled]="camposDesabilitados">
+        <div class="alert alert-{{tipoMsgRetorno}}" [hidden]="mensagemRetorno == null">{{mensagemRetorno}}</div>
+
+        <div class="form-group">
+          <label>Placa *</label>
+          <input type="text" class="form-control form-control-lg" [(ngModel)]="veiculo.placa" name="placa" title="Placa" required pattern="\w{3}-\d{4}"
+            [dropSpecialCharacters]="false" mask="AAA-0000" maxlength="8" (blur)="validaPlaca()" #placaInput/>
+        </div>
+        <div class="form-group">
+          <label>Chassi *</label>
+          <input type="text" class="form-control form-control-lg" placeholder="" [(ngModel)]="veiculo.chassi" name="chassi" title="Chassi"
+            required pattern="\w{11}\d{6}" maxlength="17" (blur)="validaChassi()" #chassiInput/>
+        </div>
+        <div class="form-group">
+          <label>Categoria *</label>
+          <select [(ngModel)]="veiculo.categoria" name="categoria" class="form-control form-control-lg" required>
+            <option value="SUV">Utilitário</option>
+            <option value="UTILIT_COMERCIAL">Uitilitário Comercial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Marca *</label>
+          <input type="text" class="form-control form-control-lg" [(ngModel)]="veiculo.marca" name="marca" title="Marca" required maxlength="10"
+          />
+        </div>
+        <div class="form-group">
+          <label>Modelo *</label>
+          <input type="text" class="form-control form-control-lg" [(ngModel)]="veiculo.modelo" name="modelo" title="Modelo" required maxlength="50"
+          />
+        </div>
+        <div class="form-group">
+          <label>Ano *</label>
+          <input type="text" class="form-control form-control-lg" [(ngModel)]="veiculo.ano" name="ano" placeholder="AAAA - Ex.: 2018"
+            title="Ano" required pattern="\d{4}" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label>Potência(cv) *</label>
+          <input type="text" class="form-control form-control-lg" [(ngModel)]="veiculo.potencia" name="nomeResp" title="Nome do responsável"
+            required pattern="\d{2,3}" mask="009" maxlength="60" />
+        </div>
+        <div class="form-group">
+          <label>Airbag</label>
+          <select [(ngModel)]="veiculo.possuiAirbag" name="possuiAirbag" class="form-control form-control-lg">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ar condicionado</label>
+          <select [(ngModel)]="veiculo.possuiArCond" name="possuiArCond" class="form-control form-control-lg">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Vidros Elétricos</label>
+          <select [(ngModel)]="veiculo.possuiVidrosElet" name="possuiVidrosElet" class="form-control form-control-lg">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select [(ngModel)]="veiculo.status" name="status" class="form-control form-control-lg">
+            <option value="DISPONIVEL">Disponível</option>
+            <option value="ALUGADO">Alugado</option>
+            <option value="EM_REPARO">Em reparo</option>
+          </select>
+        </div>
+      </fieldset>
+      <button *ngIf="!camposDesabilitados" type="submit" class="btn" id="btnInsere">Salvar</button>
+      <button *ngIf="veiculo.idVeiculo && !camposDesabilitados" type="submit" class="btn btn-danger" id="btnRemove" (click)="remove()">Remover</button>
+      <button type="submit" class="btn btn-default" id="btnCancela" (click)="cancela()">{{ camposDesabilitados ? 'Voltar' : 'Cancelar' }}</button>
+    </form>
+  </div>
+</div>
