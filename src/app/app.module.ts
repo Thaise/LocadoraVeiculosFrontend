@@ -11,6 +11,7 @@ import {NgxMaskModule} from 'ngx-mask';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpModule,
     HttpClientModule,
     NgxMaskModule.forRoot(),
+    NgbModule.forRoot(),
     routing
   ],
   providers: [],

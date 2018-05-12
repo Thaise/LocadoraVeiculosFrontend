@@ -2,6 +2,7 @@ import { Veiculo } from './../veiculo';
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { VeiculoService } from '../veiculo.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-veiculo-cadastro',
@@ -56,7 +57,6 @@ export class VeiculoCadastroComponent implements OnInit {
   }
 
   validaChassi() {
-    console.log(this.veiculoForm);
     if (this.veiculo.chassi) {
       this.veiculoService.validaChassi(this.veiculo).subscribe
         (data => { this.resposta = data },
@@ -69,6 +69,7 @@ export class VeiculoCadastroComponent implements OnInit {
           this.veiculoForm.nativeElement.classList.add("erro-validacao");
         },
         () => {
+          this.veiculo.chassi = this.veiculo.chassi.toUpperCase();
           this.tipoMsgRetorno = "";
           this.mensagemRetorno = null;
           this.chassiInput.nativeElement.classList.remove("erro-validacao");
@@ -79,7 +80,6 @@ export class VeiculoCadastroComponent implements OnInit {
   }
 
   validaPlaca() {
-    console.log(this.veiculoForm);
     if (this.veiculo.placa) {
       this.veiculoService.validaPlaca(this.veiculo).subscribe
         (l => this.resposta = l,
@@ -92,6 +92,7 @@ export class VeiculoCadastroComponent implements OnInit {
           this.veiculoForm.nativeElement.classList.add("erro-validacao");
         },
         () => {
+          this.veiculo.placa = this.veiculo.placa.toUpperCase();
           this.tipoMsgRetorno = "";
           this.mensagemRetorno = null;
           this.placaInput.nativeElement.classList.remove("erro-validacao");
@@ -156,6 +157,11 @@ export class VeiculoCadastroComponent implements OnInit {
       );
   }
 
+  anoAtual() {
+    let now = new Date();
+    return now.getFullYear();
+  }
+
   buscaPeloId(id: number) {
     this.veiculoService.getPeloId(id).subscribe
       (l => {
@@ -178,10 +184,8 @@ export class VeiculoCadastroComponent implements OnInit {
   }
 
   cancela() {
-    this.veiculo = new Veiculo();
     this.navegaParaReport();
   }
-
 
   navegaParaReport() {
     this.router.navigateByUrl('/veiculos');

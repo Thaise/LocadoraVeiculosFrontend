@@ -1,21 +1,22 @@
 
 header, footer{
-    background: #80bdff;
+    background: #007bff;
     color:white;
 }
 
 header{
     height: 70px;
-    border-radius: 5px;
     padding: 5px;
 }
 
 header h2{
-    margin: 5px 10px
+    margin: 1%;
+    font-size: 1.5em !important;
 }
 
 .content{
-    margin: 20px 20px;
+    margin: 2% 2% 2% 0;
+    margin-left: 2%;
 	min-height: 100%;
 	position: relative;
 }

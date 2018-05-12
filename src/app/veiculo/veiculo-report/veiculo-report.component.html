@@ -5,7 +5,7 @@
     <div class="form-row">
       <div class="col">
         <input type="text" class="form-control" placeholder="Placa" [(ngModel)]="filtro.placa" name="placa" title="Placa" pattern="\w{3}-\d{4}"
-          mask="'AAA-0000'" />
+          [dropSpecialCharacters]="false" mask="AAA-0000" #placaInput />
       </div>
       <div class="col">
         <input type="text" class="form-control" placeholder="Modelo" [(ngModel)]="filtro.modelo" name="modelo" title="Modelo" />
@@ -13,9 +13,11 @@
       <div class="col">
         <input type="text" class="form-control" placeholder="Marca" [(ngModel)]="filtro.marca" name="marca" title="Marca" />
       </div>
-      <div class="col">
-        <button type="submit" class="btn" (click)="filtrar()">Filtrar</button>
-        <button type="submit" class="btn btn-default" (click)="limpar()">Limpar</button>
+      <div class="form-row">
+        <div class="col">
+          <button type="submit" class="btn" (click)="buscaRegistros(true)">Filtrar</button>
+          <button type="submit" class="btn btn-default" (click)="limpa()">Limpar</button>
+        </div>
       </div>
     </div>
   </form>
@@ -27,7 +29,7 @@
       <tr>
         <th scope="col">Marca</th>
         <th scope="col">Placa</th>
-        <th scope="col">Modelo</th>
+        <th scope="col" class="extra">Modelo</th>
         <th scope="col">Status</th>
         <th scope="col">Ações</th>
       </tr>
@@ -36,12 +38,18 @@
       <tr *ngFor="let item of registros">
         <td>{{item.marca}}</td>
         <td>{{item.placa}}</td>
-        <td>{{item.modelo}}</td>
-        <td>{{item.status}}</td>
+        <td class="extra">{{item.modelo}}</td>
+        <td>{{getDescricao(item.status)}}</td>
         <td>
-          <a class="btn btn-info" routerLink="/veiculo/visualizacao/{{item.idVeiculo}}">Ver</a>
-          <a class="btn btn-primary" routerLink="/veiculo/cadastro/{{item.idVeiculo}}">Atualizar</a>
-          <a class="btn btn-danger" (click)="remove(item)">Remover</a>
+          <a class="btn btn-info" routerLink="/veiculo/visualizacao/{{item.idVeiculo}}">
+            <i class="fa fa-eye"></i>
+          </a>
+          <a class="btn btn-primary" routerLink="/veiculo/cadastro/{{item.idVeiculo}}">
+            <i class="fa fa-edit"></i>
+          </a>
+          <button type="button" class="btn btn-danger" (click)="selecionaParaRemover(item, modalRemover)">
+            <i class="fa fa-times"></i>
+          </button>
         </td>
       </tr>
     </tbody>
@@ -51,8 +59,9 @@
 <nav class="paginacao">
   <ul class="pagination">
     <li class="controle-max-pag">
-      <select name="qtdPorPagina" [disabled]="qtdPorPagina == 10 && qtdPorPagina >= totalRegistros" class="form-control form-control-sm"
+      <select name="qtdPorPagina" [disabled]="qtdPorPagina == 5 && qtdPorPagina >= totalRegistros" class="form-control form-control-sm"
         (change)="alteraMaxRegistros($event.target.value)">
+        <option value="5">5</option>
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="50">50</option>
@@ -87,3 +96,19 @@
 <section id="opcoes">
   <a class="btn btn-success" routerLink="/veiculo/cadastro">Incluir Veiculo</a>
 </section>
+
+<ng-template #modalRemover let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Remover Veículo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Confirma exclusão do veículo {{selecionado ? selecionado.placa : ''}}?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Não</button>
+    <button type="button" class="btn btn-primary" (click)="remove();c('Close click')">Sim</button>
+  </div>
+</ng-template>
