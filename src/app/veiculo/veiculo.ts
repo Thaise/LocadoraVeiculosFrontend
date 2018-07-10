@@ -6,9 +6,9 @@ export class Veiculo {
     modelo: string;
     chassi: string;
     ano: number;
-    possuiAirbag: boolean;
-    possuiArCond: boolean;
-    possuiVidrosElet: boolean;
+    possuiAirbag: number;
+    possuiArCond: number;
+    possuiVidrosElet: number;
     potencia: number;
     status: string;
 }

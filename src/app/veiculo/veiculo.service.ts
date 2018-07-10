@@ -9,51 +9,65 @@ import { VeiculoBusca } from './veiculo-report/veiculo-busca';
 @Injectable()
 export class VeiculoService {
 
-    private baseUrl: string = 'http://localhost:8080/cadastrodeveiculos/rest/veiculo';
+    private baseUrl: string = 'http://localhost:8080/cadastrodeveiculos/rest/veiculos';
 
     constructor(private http: HttpClient) {
     }
 
     insere(veiculo: Veiculo): Observable<Response> {
         let veiculoJson: string = JSON.stringify(veiculo);
-        console.log('Insere veiculo: ' + veiculo.modelo);
-        return this.http.post<Response>(`${this.baseUrl}/cadastra`, veiculoJson, Contantes.httpOptions);
+        console.log('Insere veiculo: ' + veiculoJson);
+        return this.http.post<Response>(`${this.baseUrl}`, veiculoJson, Contantes.httpOptions);
     }
 
 
     atualiza(veiculo: Veiculo): Observable<Response> {
         let veiculoJson: string = JSON.stringify(veiculo);
-        console.log('Atualiza veiculo: ' + veiculo.modelo);
-        return this.http.post<Response>(`${this.baseUrl}/atualiza`, veiculoJson, Contantes.httpOptions);
+        console.log('Atualiza veiculo: ' + veiculoJson);
+        return this.http.put<Response>(`${this.baseUrl}`, veiculoJson, Contantes.httpOptions);
     }
 
 
-    remove(veiculo: Veiculo): Observable<Response> {
-        let veiculoJson: string = JSON.stringify(veiculo);
-        console.log('Remove veiculo: ' + veiculo.modelo);
-        return this.http.post<Response>(`${this.baseUrl}/remove`, veiculoJson, Contantes.httpOptions);
+    remove(id: number): Observable<Response> {
+        console.log('Remove veiculo de id: ' + id);
+        return this.http.delete<Response>(`${this.baseUrl}/`+ id, Contantes.httpOptions);
     }
 
     getPeloId(id: number): Observable<Veiculo> {
         console.log('Busca veiculo pelo ID: ' + id);
-        return this.http.get<Veiculo>(`${this.baseUrl}/buscaPeloId/` + id, Contantes.httpOptions);
+        return this.http.get<Veiculo>(`${this.baseUrl}/` + id, Contantes.httpOptions);
     }
 
     getRegistros(filtro: VeiculoBusca): Observable<RetornoBusca> {
         let filtroJson: string = JSON.stringify(filtro);
         console.log('Busca veiculos (filtros) - página ' + filtro.pagina + " quantidade por página: " + filtro.maxItensRetorno);
-        return this.http.post<RetornoBusca>(`${this.baseUrl}/buscaPorFiltros`, filtroJson, Contantes.httpOptions);
+
+        let urlCompleta : string = `${this.baseUrl}/query?maxItensRetorno=`+filtro.maxItensRetorno+"&pagina="+filtro.pagina;
+
+        if(filtro.modelo){
+            urlCompleta += "&modelo="+filtro.modelo;
+        }
+
+        if(filtro.marca){
+            urlCompleta += "&marca="+filtro.marca;
+        }
+
+        if(filtro.placa){
+            urlCompleta += "&placa="+filtro.placa;
+        }
+
+        return this.http.get<RetornoBusca>(urlCompleta, Contantes.httpOptions);
     }
 
-    validaChassi(veiculo: Veiculo): Observable<Response> {
-        let veiculoJson: string = JSON.stringify(veiculo);
-        console.log('Valida Chassi do veiculo: ' + veiculo.modelo);
-        return this.http.post<Response>(`${this.baseUrl}/validaChassi`, veiculoJson, Contantes.httpOptions);
+    validaChassi(chassi : string, id : number): Observable<Response> {
+        let urlCompleta : string = `${this.baseUrl}/validaChassi/`+chassi + "?id="+(id ? id : 0);
+        console.log('Valida Chassi do veiculo de id: ' + id);
+        return this.http.get<Response>(urlCompleta, Contantes.httpOptions);
     }
 
-    validaPlaca(veiculo: Veiculo): Observable<Response> {
-        let veiculoJson: string = JSON.stringify(veiculo);
-        console.log('Valida Chassi do veiculo: ' + veiculo.modelo);
-        return this.http.post<Response>(`${this.baseUrl}/validaPlaca`, veiculoJson, Contantes.httpOptions);
+    validaPlaca(placa : string, id : number): Observable<Response> {
+        let urlCompleta : string = `${this.baseUrl}/validaPlaca/`+placa+ "?id="+(id ? id : 0);
+        console.log('Valida Placa do veiculo de id: ' + id);
+        return this.http.get<Response>(urlCompleta, Contantes.httpOptions);
     }
 }

@@ -66,7 +66,7 @@ export class VeiculoReportComponent implements OnInit {
 
   remove() {
     if (this.selecionado) {
-      this.veiculoService.remove(this.selecionado).subscribe
+      this.veiculoService.remove(this.selecionado.idVeiculo).subscribe
         (data => {
           this.tipoMsgRetorno = "success";
           this.mensagemRetorno = "Veículo removido com sucesso";

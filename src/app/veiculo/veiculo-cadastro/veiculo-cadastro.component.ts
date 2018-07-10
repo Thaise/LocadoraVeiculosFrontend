@@ -58,7 +58,7 @@ export class VeiculoCadastroComponent implements OnInit {
 
   validaChassi() {
     if (this.veiculo.chassi) {
-      this.veiculoService.validaChassi(this.veiculo).subscribe
+      this.veiculoService.validaChassi(this.veiculo.chassi, this.veiculo.idVeiculo).subscribe
         (data => { this.resposta = data },
         error => {
           this.erro = error.error;
@@ -81,7 +81,7 @@ export class VeiculoCadastroComponent implements OnInit {
 
   validaPlaca() {
     if (this.veiculo.placa) {
-      this.veiculoService.validaPlaca(this.veiculo).subscribe
+      this.veiculoService.validaPlaca(this.veiculo.placa, this.veiculo.idVeiculo).subscribe
         (l => this.resposta = l,
         error => {
           this.erro = error.error;
@@ -109,7 +109,7 @@ export class VeiculoCadastroComponent implements OnInit {
         this.erro = error.error;
         console.error("Erro " + this.erro.status + ": " + this.erro.msg);
         this.tipoMsgRetorno = "danger";
-        this.mensagemRetorno = "Erro ao inserir veiculo '" + this.veiculo.modelo + "': " + this.erro.msg;
+        this.mensagemRetorno = "Erro ao inserir veiculo '" + this.veiculo.modelo ;
       },
       () => {
         this.tipoMsgRetorno = "success";
@@ -129,7 +129,7 @@ export class VeiculoCadastroComponent implements OnInit {
         console.error(this.erro);
         console.error("Erro " + this.erro.status + ": " + this.erro.msg);
         this.tipoMsgRetorno = "danger";
-        this.mensagemRetorno = "Erro ao atualizar veiculo '" + this.veiculo.modelo + "': " + this.erro.msg;
+        this.mensagemRetorno = "Erro ao atualizar veiculo '" + this.veiculo.modelo ;
       },
       () => {
         this.tipoMsgRetorno = "success";
@@ -141,13 +141,13 @@ export class VeiculoCadastroComponent implements OnInit {
 
 
   remove() {
-    this.veiculoService.remove(this.veiculo).subscribe
+    this.veiculoService.remove(this.veiculo.idVeiculo).subscribe
       (l => this.resposta = l,
       error => {
         this.erro = error;
         console.error("Erro " + this.erro.status + ": " + this.erro.msg);
         this.tipoMsgRetorno = "danger";
-        this.mensagemRetorno = "Erro ao remover veiculo '" + this.veiculo.modelo + "': " + this.erro.msg;
+        this.mensagemRetorno = "Erro ao remover veiculo '" + this.veiculo.modelo ;
       },
       () => {
         this.tipoMsgRetorno = "success";

@@ -15,8 +15,7 @@ header h2{
 }
 
 .content{
-    margin: 2% 2% 2% 0;
-    margin-left: 2%;
+    margin: 2% auto;
 	min-height: 100%;
 	position: relative;
 }
